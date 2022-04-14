@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}INVOICE PAGE{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>New Invoice</h1>
+        {{ form_start(form) }}
+        {{ form_row(form.invoiceDate) }}
+        {{ form_row(form.customerId) }}
+        <h3>Lines</h3>
+        <div class="row invocelines"
+             data-index="{{ form.invoicelines|length > 0 ? form.invoicelines|last.vars.name : 0 }}"
+             data-prototype="{{ form_widget(form.invoicelines.vars.prototype)|e('html_attr') }}">
+            {% for line in form.invoicelines %}
+                <div class="col-4">{{ form_row(line.description) }}</div>
+                <div class="col-4">{{ form_row(line.quantity) }}</div>
+                <div class="col-4">{{ form_row(line.amount) }}</div>
+            {% endfor %}
+        </div>
+        <button type="button" class="add_item_link btn btn-secondary" data-collection-holder-class="invocelines">Add a
+            line
+        </button>
+        {{ form_end(form) }}
+    </div>
+
+    <script type="text/javascript">
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+            console.log(collectionHolder.dataset.index);
+            const item = document.createElement("div");
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/,
+                    collectionHolder.dataset.index
+                );
+            collectionHolder.appendChild(item);
+            el = document.getElementById('invoce_form_invocelines_' + collectionHolder.dataset.index);
+            el.classList.add('row');
+            for (var i = 0; i < el.children.length; i++) {
+                var child = el.children[i];
+                if (child.tagName == 'DIV') {
+                    child.classList.add('col-4');
+                }
+            }
+            collectionHolder.dataset.index++;
+        };
+        document.querySelectorAll('.add_item_link').forEach(btn => {
+            btn.addEventListener("click", addFormToCollection);
+        });
+    </script>
+{% endblock %}
