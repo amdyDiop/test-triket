@@ -15,7 +15,7 @@ class InvoiceLines
 
     #[ORM\ManyToOne(targetEntity: invoice::class, inversedBy: 'invoiceLines')]
     #[ORM\JoinColumn(nullable: false)]
-    private $invoice_id;
+    private $invoice;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
@@ -37,14 +37,14 @@ class InvoiceLines
         return $this->id;
     }
 
-    public function getInvoiceId(): ?invoice
+    public function getInvoice(): ?invoice
     {
-        return $this->invoice_id;
+        return $this->invoice;
     }
 
-    public function setInvoiceId(?invoice $invoice_id): self
+    public function setInvoice(?invoice $invoice): self
     {
-        $this->invoice_id = $invoice_id;
+        $this->invoice = $invoice;
 
         return $this;
     }
@@ -73,7 +73,7 @@ class InvoiceLines
         return $this;
     }
 
-    public function getAmount(): ?string
+    public function getAmount()
     {
         return $this->amount;
     }
@@ -85,7 +85,7 @@ class InvoiceLines
         return $this;
     }
 
-    public function getVatAmount(): ?string
+    public function getVatAmount()
     {
         return $this->vat_amount;
     }
@@ -97,7 +97,7 @@ class InvoiceLines
         return $this;
     }
 
-    public function getTotalWithVat(): ?string
+    public function getTotalWithVat()
     {
         return $this->total_with_vat;
     }
