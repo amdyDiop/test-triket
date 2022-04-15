@@ -35,7 +35,7 @@ class InvoiceController extends AbstractController
                 $total = $amount_vat + $amount_without_vat;
                 $singleLine->setTotalWithVat($total);
                 $singleLine->setVatAmount($amount_vat);
-                $singleLine->setInvoiceId($invoice);
+                $singleLine->setInvoice($invoice);
                 $em->persist($singleLine);
             }
 
